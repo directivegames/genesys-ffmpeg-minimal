@@ -29,7 +29,8 @@ cd "lame-${LAME_VERSION}"
   --disable-shared \
   --disable-frontend \
   CC="$CC" \
-  CXX="$CXX"
+  CXX="$CXX" \
+  MAKE="$MAKE"
 
 "$MAKE" -j"$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)"
 "$MAKE" install

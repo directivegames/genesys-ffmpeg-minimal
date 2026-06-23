@@ -25,7 +25,18 @@ export OUTPUT_PREFIX="${OUTPUT_PREFIX:-$ROOT_DIR/artifacts/unconfigured}"
 export CC="${CC:-gcc}"
 export CXX="${CXX:-g++}"
 export PKG_CONFIG="${PKG_CONFIG:-pkg-config}"
-export MAKE="${MAKE:-make}"
+
+detect_make() {
+  if command -v mingw32-make >/dev/null 2>&1; then
+    echo mingw32-make
+  elif command -v gmake >/dev/null 2>&1; then
+    echo gmake
+  else
+    echo make
+  fi
+}
+
+export MAKE="${MAKE:-$(detect_make)}"
 export STRIP="${STRIP:-strip}"
 
 mkdir -p "$SOURCES_DIR" "$DEPS_PREFIX" "$(dirname "$OUTPUT_PREFIX")"

@@ -18,9 +18,9 @@ echo "==> Genesys minimal ffmpeg — ${ARTIFACT_SLUG}"
 echo "    Install build deps first, e.g.:"
 echo "    sudo apt-get install -y build-essential curl nasm yasm pkg-config"
 
-"$SCRIPT_DIR/build-lame.sh"
-"$SCRIPT_DIR/build-ffmpeg.sh"
-"$SCRIPT_DIR/package.sh" "$ARTIFACT_SLUG"
-"$SCRIPT_DIR/smoke-test.sh" "$OUTPUT_PREFIX/bin/ffmpeg"
+bash "$SCRIPT_DIR/build-lame.sh"
+bash "$SCRIPT_DIR/build-ffmpeg.sh"
+bash "$SCRIPT_DIR/package.sh" "$ARTIFACT_SLUG"
+bash "$SCRIPT_DIR/smoke-test.sh" "$OUTPUT_PREFIX/bin/ffmpeg"
 
 echo "==> Done: $ROOT_DIR/dist/${ARTIFACT_SLUG}.tar.xz"

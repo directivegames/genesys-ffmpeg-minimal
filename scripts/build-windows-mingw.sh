@@ -17,9 +17,11 @@ export OUTPUT_PREFIX="$ROOT_DIR/artifacts/${ARTIFACT_SLUG}"
 
 echo "==> Genesys minimal ffmpeg — ${ARTIFACT_SLUG}"
 
-"$SCRIPT_DIR/build-lame.sh"
-"$SCRIPT_DIR/build-ffmpeg.sh"
-"$SCRIPT_DIR/package.sh" "$ARTIFACT_SLUG"
-"$SCRIPT_DIR/smoke-test.sh" "$OUTPUT_PREFIX/bin/ffmpeg.exe"
+export MAKE="mingw32-make"
+
+bash "$SCRIPT_DIR/build-lame.sh"
+bash "$SCRIPT_DIR/build-ffmpeg.sh"
+bash "$SCRIPT_DIR/package.sh" "$ARTIFACT_SLUG"
+bash "$SCRIPT_DIR/smoke-test.sh" "$OUTPUT_PREFIX/bin/ffmpeg.exe"
 
 echo "==> Done: $ROOT_DIR/dist/${ARTIFACT_SLUG}.zip"
