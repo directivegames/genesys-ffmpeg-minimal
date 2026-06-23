@@ -27,22 +27,21 @@ fi
 
 cd "$FFMPEG_SRC_DIR"
 
-# Clean tree when re-running locally
-if [[ -f Makefile ]]; then
+# FFmpeg ships a stub Makefile before configure; distclean needs ffbuild/config.mak.
+if [[ -f ffbuild/config.mak ]]; then
   "$MAKE" distclean || true
 fi
 
+export CC CXX
 export PKG_CONFIG_PATH="$DEPS_PREFIX/lib/pkgconfig:${PKG_CONFIG_PATH:-}"
 
 ./configure \
   --prefix="$OUTPUT_PREFIX" \
   --pkg-config-flags="--static" \
   --extra-cflags="-I${DEPS_PREFIX}/include" \
-  --extra-ldflags="-L${DEPS_PREFIX}/lib" \
+  --extra-ldflags="-L${DEPS_PREFIX}/lib -static" \
   --enable-static \
   --disable-shared \
-  CC="$CC" \
-  CXX="$CXX" \
   "${GENESYS_FFMPEG_CONFIGURE_FLAGS[@]}"
 
 "$MAKE" -j"$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)"
