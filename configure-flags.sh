@@ -14,10 +14,21 @@ GENESYS_FFMPEG_CONFIGURE_FLAGS=(
   --disable-debug
   --disable-doc
   --disable-avdevice
-  --disable-avfilter
   --disable-swscale
   --disable-postproc
   --disable-network
+
+  # The ffmpeg CLI hard-depends on libavfilter (and swresample for audio
+  # format conversion). Keep avfilter enabled but strip it down to the audio
+  # filters the transcode path actually needs (abuffer/abuffersink sources and
+  # sinks are always built in).
+  --enable-avfilter
+  --disable-filters
+  --enable-filter=aresample
+  --enable-filter=aformat
+  --enable-filter=anull
+  --enable-filter=acopy
+  --enable-filter=atrim
 
   --disable-hwaccels
   --disable-vulkan
