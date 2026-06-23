@@ -1,0 +1,12 @@
+/build/
+/deps/
+/sources/
+/artifacts/
+/dist/
+*.tar.gz
+*.tar.xz
+*.zip
+*.7z
+*.log
+.DS_Store
+Thumbs.db

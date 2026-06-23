@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    name: Build win64-static
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: >-
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-make
+            mingw-w64-x86_64-pkg-config
+            mingw-w64-x86_64-nasm
+            mingw-w64-x86_64-yasm
+            zip
+            curl
+            python
+
+      - name: Build
+        run: bash ./scripts/build-windows-mingw.sh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: win64-static
+          path: dist/*.zip
+
+  build-linux:
+    name: Build linux64-static
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential curl nasm yasm pkg-config python3 xz-utils
+
+      - name: Build
+        run: bash ./scripts/build-linux-gnu.sh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux64-static
+          path: |
+            dist/*.tar.xz
+            dist/*.sha256
