@@ -17,7 +17,7 @@ if [[ ! -x "$FFMPEG" ]] && [[ ! -f "$FFMPEG" ]]; then
 fi
 
 if [[ ! -f "$FIXTURES/silence.wav" ]]; then
-  "$FIXTURES/generate-silence-wav.sh"
+  bash "$FIXTURES/generate-silence-wav.sh"
 fi
 
 echo "==> Smoke test: $FFMPEG"
