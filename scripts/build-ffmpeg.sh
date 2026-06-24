@@ -37,8 +37,9 @@ export PKG_CONFIG_PATH="$DEPS_PREFIX/lib/pkgconfig:${PKG_CONFIG_PATH:-}"
 
 # macOS has no static libSystem, so a fully static link (-static) only works on
 # glibc/MinGW. Platform scripts set STATIC_LDFLAG="" to opt out; everywhere else
-# we default to a fully static binary.
-STATIC_LDFLAG="${STATIC_LDFLAG:--static}"
+# we default to a fully static binary. Note: no colon in the expansion so an
+# explicitly empty value is preserved (only an *unset* var gets the default).
+STATIC_LDFLAG="${STATIC_LDFLAG--static}"
 
 ./configure \
   --prefix="$OUTPUT_PREFIX" \

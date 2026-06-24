@@ -9,8 +9,10 @@ ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 # shellcheck source=env.sh
 source "$SCRIPT_DIR/env.sh"
 
-export CC="${CC:-clang}"
-export CXX="${CXX:-clang++}"
+# env.sh already defaulted CC/CXX to gcc/g++, so override unconditionally here
+# (on macOS those are clang shims anyway, but be explicit).
+export CC="clang"
+export CXX="clang++"
 export STRIP="${STRIP:-strip}"
 
 # No fully static binary on macOS: link system libs dynamically.
