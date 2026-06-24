@@ -62,9 +62,36 @@ jobs:
           name: linux64-static
           path: dist/*
 
+  build-macos:
+    name: ${{ matrix.slug }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-14
+            arch: arm64
+            slug: macos-arm64-static
+          - runner: macos-13
+            arch: x86_64
+            slug: macos-x64-static
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: brew install nasm yasm pkg-config xz
+
+      - env:
+          ARCH: ${{ matrix.arch }}
+        run: bash ./scripts/build-macos.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.slug }}
+          path: dist/*
+
   release:
     name: Publish GitHub Release
-    needs: [build-windows, build-linux]
+    needs: [build-windows, build-linux, build-macos]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4

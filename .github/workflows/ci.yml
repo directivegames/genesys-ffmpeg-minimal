@@ -61,3 +61,35 @@ jobs:
           path: |
             dist/*.tar.xz
             dist/*.sha256
+
+  build-macos:
+    name: Build ${{ matrix.slug }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-14
+            arch: arm64
+            slug: macos-arm64-static
+          - runner: macos-13
+            arch: x86_64
+            slug: macos-x64-static
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: brew install nasm yasm pkg-config xz
+
+      - name: Build
+        env:
+          ARCH: ${{ matrix.arch }}
+        run: bash ./scripts/build-macos.sh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.slug }}
+          path: |
+            dist/*.tar.xz
+            dist/*.sha256
