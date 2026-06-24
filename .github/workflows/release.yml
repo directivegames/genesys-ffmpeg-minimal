@@ -71,7 +71,7 @@ jobs:
           - runner: macos-14
             arch: arm64
             slug: macos-arm64-static
-          - runner: macos-13
+          - runner: macos-15-intel
             arch: x86_64
             slug: macos-x64-static
     runs-on: ${{ matrix.runner }}
