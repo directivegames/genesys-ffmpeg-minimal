@@ -3,7 +3,11 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-readarray -t VERSION_LINES < "$ROOT_DIR/VERSION"
+# macOS ships Bash 3.2 which lacks `readarray`/`mapfile`, so read lines portably.
+VERSION_LINES=()
+while IFS= read -r _line || [[ -n "$_line" ]]; do
+  VERSION_LINES+=("$_line")
+done < "$ROOT_DIR/VERSION"
 export FFMPEG_VERSION="${VERSION_LINES[0]}"
 export RECIPE_VERSION="${VERSION_LINES[1]:-1}"
 

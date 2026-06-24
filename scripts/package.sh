@@ -12,7 +12,11 @@ ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 # shellcheck source=env.sh
 source "$SCRIPT_DIR/env.sh"
 
-readarray -t VERSION_LINES < "$ROOT_DIR/VERSION"
+# Bash 3.2 (macOS) lacks readarray; read VERSION lines portably.
+VERSION_LINES=()
+while IFS= read -r _line || [[ -n "$_line" ]]; do
+  VERSION_LINES+=("$_line")
+done < "$ROOT_DIR/VERSION"
 FFMPEG_VERSION="${VERSION_LINES[0]}"
 RECIPE_VERSION="${VERSION_LINES[1]:-1}"
 
