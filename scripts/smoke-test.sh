@@ -23,6 +23,16 @@ fi
 echo "==> Smoke test: $FFMPEG"
 "$FFMPEG" -hide_banner -version | head -n 1
 
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  BAD_DEPS="$(otool -L "$FFMPEG" | grep -E '/opt/homebrew/opt/|/usr/local/opt/' || true)"
+  if [[ -n "$BAD_DEPS" ]]; then
+    echo "Non-portable Homebrew dylib dependencies detected:" >&2
+    echo "$BAD_DEPS" >&2
+    exit 1
+  fi
+  echo "    macOS portability OK (no Homebrew dylib paths)"
+fi
+
 ENCODERS="$("$FFMPEG" -hide_banner -encoders 2>&1)"
 if ! grep -qi libmp3lame <<< "$ENCODERS"; then
   echo "libmp3lame encoder missing" >&2

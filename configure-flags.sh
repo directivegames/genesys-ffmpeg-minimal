@@ -43,6 +43,14 @@ GENESYS_FFMPEG_CONFIGURE_FLAGS=(
   --disable-indevs
   --disable-outdevs
 
+  # No video/display stack — avoid autodetecting Homebrew X11 on macOS CI.
+  --disable-xlib
+  --disable-libxcb
+  --disable-libxcb-shm
+  --disable-libxcb-xfixes
+  --disable-libxcb-shape
+  --disable-sdl2
+
   --disable-ffprobe
   --disable-ffplay
   --enable-ffmpeg
