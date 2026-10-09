@@ -54,7 +54,10 @@ patterns and [BtbN/FFmpeg-Builds](https://github.com/BtbN/FFmpeg-Builds) LAME li
 ## CI
 
 - **CI** (push/PR): builds `win64-static` + `linux64-static`, runs smoke test.
-- **Release** (tag `v*` or manual): uploads both archives to GitHub Releases.
+- **Release** (tag `v*` or manual): uploads both archives to GitHub Releases, plus
+  `genesys-ffmpeg-minimal-<ffmpeg>-r<recipe>-sources.tar` (upstream FFmpeg and LAME
+  source tarballs and this repo's recipe at the release commit) for LGPL source
+  compliance. Build it locally with `bash ./scripts/package-sources.sh`.
 
 ## Smoke test
 
