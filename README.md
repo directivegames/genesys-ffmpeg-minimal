@@ -2,15 +2,16 @@
 
 Minimal **static `ffmpeg`** builds for the [Genesys](https://github.com/directivegames/genesys-monorepo) SDK
 MP3 asset baker. Produces a small CLI that transcodes loose audio in `.dist` to MP3
-(WAV / FLAC / AIFF / OGG / AAC / M4A → MP3 via `libmp3lame`).
+(WAV / FLAC / AIFF / OGG / M4A → MP3 via `libmp3lame`).
 
-Build scripts in this repo are **MIT**. Published binaries are **GPL-2.0-or-later**
-(FFmpeg) and **LGPL-2.0-or-later** (LAME). See [RECIPE.md](RECIPE.md).
+Build scripts in this repo are **MIT**. Published binaries are **LGPL-2.1-or-later**
+(FFmpeg, built without `--enable-gpl`) and statically link **LGPL-2.0-or-later** LAME.
+See [RECIPE.md](RECIPE.md).
 
 ## Why a separate repo?
 
 - Full BtbN ffmpeg builds are ~130 MB; this recipe targets ~5–15 MB.
-- GPL/LAME native builds are slow and platform-specific — keep them out of the monorepo.
+- FFmpeg/LAME native builds are slow and platform-specific — keep them out of the monorepo.
 - Genesys pins a release tag + SHA256 from here in `vendor:ffmpeg`.
 
 ## Layout

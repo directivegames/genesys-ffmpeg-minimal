@@ -16,11 +16,13 @@ tool).
 | `.aiff` / `.aif` | AIFF demuxer + PCM |
 | `.flac` | FLAC demuxer + FLAC decoder |
 | `.ogg` | OGG demuxer + Vorbis/Opus decoder |
-| `.aac` / `.m4a` | MOV demuxer + AAC decoder |
+| `.m4a` | MOV demuxer + AAC decoder |
 
 | Output | Encoder |
 | --- | --- |
 | `.mp3` | `libmp3lame` |
+
+Raw ADTS `.aac` files are not supported: the `aac` demuxer is not enabled.
 
 Already-MP3 sources are skipped by the Genesys baker; including MP3 demux/decode
 in ffmpeg is optional and omitted in v1 to save size.
@@ -59,6 +61,10 @@ Checks:
 ## Legal
 
 - Build scripts in this repo: **MIT**
-- Published binaries: **GPL-2.0-or-later** (FFmpeg) + **LGPL-2.0-or-later** (LAME)
+- Published binaries: **LGPL-2.1-or-later** (FFmpeg) + **LGPL-2.0-or-later** (LAME),
+  LAME is statically linked. `configure` also autodetects the platform `iconv`
+  (glibc on Linux, libiconv on Windows; both LGPL).
+- Do not add `--enable-gpl`, `--enable-version3`, or `--enable-nonfree`. They change
+  the license of the binaries.
 - Genesys `THIRD_PARTY_NOTICES.md` must cite this repo + release tag + upstream
   FFmpeg/LAME sources
