@@ -89,9 +89,22 @@ jobs:
           name: ${{ matrix.slug }}
           path: dist/*
 
+  package-sources:
+    name: sources
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: bash ./scripts/package-sources.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sources
+          path: dist/*
+
   release:
     name: Publish GitHub Release
-    needs: [build-windows, build-linux, build-macos]
+    needs: [build-windows, build-linux, build-macos, package-sources]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4

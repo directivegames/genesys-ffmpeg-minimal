@@ -2,15 +2,16 @@
 
 Minimal **static `ffmpeg`** builds for the [Genesys](https://github.com/directivegames/genesys-monorepo) SDK
 MP3 asset baker. Produces a small CLI that transcodes loose audio in `.dist` to MP3
-(WAV / FLAC / AIFF / OGG / AAC / M4A → MP3 via `libmp3lame`).
+(WAV / FLAC / AIFF / OGG / M4A → MP3 via `libmp3lame`).
 
-Build scripts in this repo are **MIT**. Published binaries are **GPL-2.0-or-later**
-(FFmpeg) and **LGPL-2.0-or-later** (LAME). See [RECIPE.md](RECIPE.md).
+Build scripts in this repo are **MIT**. Published binaries are **LGPL-2.1-or-later**
+(FFmpeg, built without `--enable-gpl`) and statically link **LGPL-2.0-or-later** LAME.
+See [RECIPE.md](RECIPE.md).
 
 ## Why a separate repo?
 
 - Full BtbN ffmpeg builds are ~130 MB; this recipe targets ~5–15 MB.
-- GPL/LAME native builds are slow and platform-specific — keep them out of the monorepo.
+- FFmpeg/LAME native builds are slow and platform-specific — keep them out of the monorepo.
 - Genesys pins a release tag + SHA256 from here in `vendor:ffmpeg`.
 
 ## Layout
@@ -53,7 +54,10 @@ patterns and [BtbN/FFmpeg-Builds](https://github.com/BtbN/FFmpeg-Builds) LAME li
 ## CI
 
 - **CI** (push/PR): builds `win64-static` + `linux64-static`, runs smoke test.
-- **Release** (tag `v*` or manual): uploads both archives to GitHub Releases.
+- **Release** (tag `v*` or manual): uploads both archives to GitHub Releases, plus
+  `genesys-ffmpeg-minimal-<ffmpeg>-r<recipe>-sources.tar` (upstream FFmpeg and LAME
+  source tarballs and this repo's recipe at the release commit) for LGPL source
+  compliance. Build it locally with `bash ./scripts/package-sources.sh`.
 
 ## Smoke test
 

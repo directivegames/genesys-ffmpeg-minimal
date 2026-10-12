@@ -3,8 +3,6 @@
 # shellcheck disable=SC2034
 
 GENESYS_FFMPEG_CONFIGURE_FLAGS=(
-  --enable-gpl
-  --enable-version3
   --enable-libmp3lame
 
   --enable-small
